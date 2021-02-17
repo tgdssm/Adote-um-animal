@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "184322694001",
+    "project_id": "pet-adoption-d16b7",
+    "storage_bucket": "pet-adoption-d16b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184322694001:android:b56f1b0ca273a22157f4d0",
+        "android_client_info": {
+          "package_name": "com.example.pet_adoption_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184322694001-u6u282u4qo1ous62nta4p76s8pjgce66.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pet_adoption_flutter_app",
+            "certificate_hash": "4f04066c7cc92b5dd72248a6fc74c99e17afb2d3"
+          }
+        },
+        {
+          "client_id": "184322694001-rjgqg9jqjnf4m14gbps9gic3gchpv8o1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOmy15jwar3EeoGDWy-erAp8CRwAsYj24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184322694001-rjgqg9jqjnf4m14gbps9gic3gchpv8o1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
