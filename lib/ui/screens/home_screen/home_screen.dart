@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:pet_adoption_flutter_app/data/models/animal.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_container.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/app_bar_custom.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
@@ -10,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _homeController = HomeController();
   List<String> images = [
     'assets/images/Aatrox_0.jpg',
     'assets/images/Aatrox_1.jpg',
@@ -52,42 +55,68 @@ class _HomeScreenState extends State<HomeScreen> {
                     //       color: Colors.black, fontWeight: FontWeight.w600, fontSize: 23.0),
                     // ),
                     Container(
-                      height: 400,
-                      child: Swiper(
-                        itemCount: images.length,
-                        layout: SwiperLayout.STACK,
-                        itemWidth: MediaQuery.of(context).size.width,
-                        itemHeight: MediaQuery.of(context).size.height,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () => print(images[index]),
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Stack(
-                                children: [
-                                  Image.asset(images[index]),
-                                  Positioned(
-                                    bottom: 15,
-                                    left: 25,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'Atena',
-                                          style: TextStyle(color: Colors.white),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: FutureBuilder(
+                          future: _homeController.read(),
+                          builder:
+                              (context, AsyncSnapshot<List<Animal>> snapshot) {
+                            if (snapshot.hasData)
+                              return Swiper(
+                                itemCount: snapshot.data.length,
+                                layout: SwiperLayout.STACK,
+                                itemWidth: MediaQuery.of(context).size.width,
+                                itemHeight: MediaQuery.of(context).size.height,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () =>
+                                        print(snapshot.data[index].photo),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(30.0),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                                width: MediaQuery.of(context).size.width * 0.9,
+                                                height: MediaQuery.of(context).size.height * 0.5,
+                                                child: Image.network(
+                                              snapshot.data[index].photo,
+                                              fit: BoxFit.cover,
+                                            )),
+                                            Positioned(
+                                              bottom: 15,
+                                              left: 25,
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    snapshot.data[index].name,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                      fontSize: 26
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data[index].breed,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                      fontSize: 20
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          'Vira-lata',
-                                          style: TextStyle(color: Colors.white),
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                                  );
+                                },
+                              );
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }),
                     ),
                   ],
                 ),
@@ -114,8 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 AssetImage('assets/icons/add.png'),
                 size: 45,
               ),
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterAnimalScreen())),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RegisterAnimalScreen())),
             ),
             GestureDetector(
               child: ImageIcon(

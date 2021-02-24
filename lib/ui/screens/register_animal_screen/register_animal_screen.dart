@@ -5,10 +5,50 @@ import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widge
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/animal_sex_button.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/get_image_button.dart';
 
-class RegisterAnimalScreen extends StatelessWidget {
+class RegisterAnimalScreen extends StatefulWidget {
+  @override
+  _RegisterAnimalScreenState createState() => _RegisterAnimalScreenState();
+}
+
+class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
   final _registerAnimalController = RegisterAnimalController();
+
   Future<File> getImage() async {
     return await _registerAnimalController.getImage();
+  }
+
+  DropdownButton<String> _dropdownButton() {
+    return DropdownButton<String>(
+      isExpanded: true,
+      underline: Container(
+        height: 1,
+        color: Colors.grey,
+      ),
+      hint: _registerAnimalController.dropdownValue == null
+          ? Text(
+              'SELECT SPECIES',
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+            )
+          : Text(
+              _registerAnimalController.dropdownValue,
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+            ),
+      value: _registerAnimalController.dropdownValue,
+      onChanged: (String newValue) {
+        setState(() {
+          _registerAnimalController.dropdownValue = newValue;
+        });
+      },
+      items: _registerAnimalController.species.map((e) {
+        return DropdownMenuItem<String>(
+          value: e,
+          child: Text(
+            e,
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+          ),
+        );
+      }).toList(),
+    );
   }
 
   @override
@@ -31,6 +71,20 @@ class RegisterAnimalScreen extends StatelessWidget {
             child: Column(
               children: [
                 GetImageButton(getImage: getImage),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(bottom: 3.0, left: 40.0),
+                  child: Text(
+                    'SPECIES',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 40.0),
+                    child: _dropdownButton()),
                 Form(
                   key: _registerAnimalController.formKey,
                   child: Column(
@@ -53,19 +107,33 @@ class RegisterAnimalScreen extends StatelessWidget {
                             _registerAnimalController.descriptionController,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 40.0),
                         child: Column(
                           children: [
                             Container(
-                              alignment: Alignment.topCenter,
+                              alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(bottom: 3.0),
-                              child: Text('SEX', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),),
+                              child: Text(
+                                'SEX',
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w600),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                AnimalSexButton(sex: 'male', onPressed: () => _registerAnimalController.setSex('M'),),
-                                AnimalSexButton(sex: 'female', onPressed: () => _registerAnimalController.setSex('F'),),
+                                AnimalSexButton(
+                                  sex: 'male',
+                                  onPressed: () =>
+                                      _registerAnimalController.setSex('M'),
+                                ),
+                                AnimalSexButton(
+                                  sex: 'female',
+                                  onPressed: () =>
+                                      _registerAnimalController.setSex('F'),
+                                ),
                               ],
                             )
                           ],
@@ -78,7 +146,8 @@ class RegisterAnimalScreen extends StatelessWidget {
                         height: 95,
                         child: RaisedButton(
                           onPressed: () {
-                            _registerAnimalController.onPressingRegisterButton();
+                            _registerAnimalController.onPressingRegisterButton(
+                                context: context);
                           },
                           child: Text(
                             'REGISTER',

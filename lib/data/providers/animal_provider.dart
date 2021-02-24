@@ -20,7 +20,16 @@ class AnimalProvider {
     return await uploadImage.ref.getDownloadURL();
   }
 
+  // Stream<QuerySnapshot> read() {
+  //   return _collectionReference.snapshots();
+  // }
+
    Future<List<Animal>> read() async{
-    
+    List<Animal> animals = [];
+    QuerySnapshot snapshot = await _collectionReference.get();
+    snapshot.docs.forEach((element) {
+      animals.add(Animal.fromJson(element));
+    });
+    return animals;
   }
 }

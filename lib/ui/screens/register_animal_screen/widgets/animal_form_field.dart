@@ -16,12 +16,16 @@ class AnimalFormField extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            alignment: Alignment.topCenter,
+            alignment: Alignment.topLeft,
             padding: EdgeInsets.only(bottom: 3.0),
             child: Text(this.fieldName, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),),
           ),
           TextFormField(
             controller: this.controller,
+            cursorColor: Colors.black,
+            style: TextStyle(
+              fontSize: 20.0
+            ),
             validator: (value) {
               if(value.isEmpty || value.indexOf(' ') == 0){
                 return 'THE FIELD NO ${this.fieldName} CAN BE EMPTY';
