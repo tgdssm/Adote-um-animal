@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_container.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/app_bar_custom.dart';
@@ -13,16 +14,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _homeController = HomeController();
-  List<String> images = [
-    'assets/images/Aatrox_0.jpg',
-    'assets/images/Aatrox_1.jpg',
-    'assets/images/Aatrox_2.jpg',
-    'assets/images/Aatrox_3.jpg',
-    'assets/images/Aatrox_7.jpg',
-    'assets/images/Aatrox_8.jpg',
-    'assets/images/Aatrox_9.jpg',
-    'assets/images/Aatrox_11.jpg',
-  ];
+  String animalFilter;
+
+  void filter(String animalFilter) {
+    setState(() {
+      this.animalFilter = animalFilter;
+    });
+    print('filter function ${this.animalFilter}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +35,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   AnimalContainer(
-                    animal: 'dog',
+                    animal: 'DOG',
+                    filter: filter,
                   ),
                   AnimalContainer(
-                    animal: 'cat',
+                    animal: 'CAT',
+                    filter: filter,
                   ),
                   AnimalContainer(
-                    animal: 'bird',
+                    animal: 'ALL',
+                    filter: filter,
                   ),
                 ],
               ),
@@ -49,16 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
                 child: Column(
                   children: [
-                    // Text(
-                    //   '${images.length} animais encontrados',
-                    //   style: TextStyle(
-                    //       color: Colors.black, fontWeight: FontWeight.w600, fontSize: 23.0),
-                    // ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.5,
                       child: FutureBuilder(
-                          future: _homeController.read(),
+                          future: _homeController.read(filter: animalFilter),
                           builder:
                               (context, AsyncSnapshot<List<Animal>> snapshot) {
                             if (snapshot.hasData)
@@ -69,21 +67,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemHeight: MediaQuery.of(context).size.height,
                                 itemBuilder: (context, index) {
                                   return InkWell(
-                                    onTap: () =>
-                                        print(snapshot.data[index].photo),
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              AnimalCharacteristics(
+                                                animal: snapshot.data[index],
+                                              ),
+                                        )),
                                     child: Container(
                                       alignment: Alignment.center,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(30.0),
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
                                         child: Stack(
                                           children: [
                                             Container(
-                                                width: MediaQuery.of(context).size.width * 0.9,
-                                                height: MediaQuery.of(context).size.height * 0.5,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.9,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.5,
                                                 child: Image.network(
-                                              snapshot.data[index].photo,
-                                              fit: BoxFit.cover,
-                                            )),
+                                                  snapshot.data[index].photo,
+                                                  fit: BoxFit.cover,
+                                                )),
                                             Positioned(
                                               bottom: 15,
                                               left: 25,
@@ -93,15 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     snapshot.data[index].name,
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                      fontSize: 26
-                                                    ),
+                                                        fontSize: 26),
                                                   ),
                                                   Text(
                                                     snapshot.data[index].breed,
                                                     style: TextStyle(
                                                         color: Colors.white,
-                                                      fontSize: 20
-                                                    ),
+                                                        fontSize: 20),
                                                   )
                                                 ],
                                               ),
@@ -159,5 +168,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+  Future<void> _onRefresh() {
+    Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
+          transitionDuration: Duration(seconds: 0),
+        ));
   }
 }

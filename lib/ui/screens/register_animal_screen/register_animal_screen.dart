@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/animal_form_field.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/animal_sex_button.dart';
@@ -26,7 +28,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
       ),
       hint: _registerAnimalController.dropdownValue == null
           ? Text(
-              'SELECT SPECIES',
+              'SELECIONAR ESPÉCIE',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
             )
           : Text(
@@ -61,7 +63,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'REGISTER PET',
+          'REGISTRAR PET',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
       ),
@@ -75,7 +77,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(bottom: 3.0, left: 40.0),
                   child: Text(
-                    'SPECIES',
+                    'ESPÉCIE',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600),
@@ -90,19 +92,34 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                   child: Column(
                     children: [
                       AnimalFormField(
-                        fieldName: 'NAME',
+                        fieldName: 'NOME',
+                        maxLength: 20,
                         controller: _registerAnimalController.nameController,
                       ),
                       AnimalFormField(
-                        fieldName: 'BREED',
+                        fieldName: 'RAÇA',
                         controller: _registerAnimalController.breedController,
                       ),
                       AnimalFormField(
-                        fieldName: 'AGE',
+                        fieldName: 'IDADE',
+                        validator: (value) {
+                          if(value.isEmpty || value == '0')
+                            return 'THE FIELD NO AGE CAN BE EMPTY';
+                          return null;
+                        },
+                        maxLength: 2,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp('[0-9]')
+                          ),
+                        ],
+                        textInputType: TextInputType.number,
                         controller: _registerAnimalController.ageController,
                       ),
                       AnimalFormField(
-                        fieldName: 'DESCRIPTION',
+                        fieldName: 'DESCRIÇÃO',
+                        maxLines: null,
+                        maxLength: 120,
                         controller:
                             _registerAnimalController.descriptionController,
                       ),
@@ -115,7 +132,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                               alignment: Alignment.topLeft,
                               padding: EdgeInsets.only(bottom: 3.0),
                               child: Text(
-                                'SEX',
+                                'SEXO',
                                 style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w600),
@@ -127,12 +144,12 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 AnimalSexButton(
                                   sex: 'male',
                                   onPressed: () =>
-                                      _registerAnimalController.setSex('M'),
+                                      _registerAnimalController.setSex('MACHO'),
                                 ),
                                 AnimalSexButton(
                                   sex: 'female',
                                   onPressed: () =>
-                                      _registerAnimalController.setSex('F'),
+                                      _registerAnimalController.setSex('FÊMEA'),
                                 ),
                               ],
                             )
@@ -150,7 +167,7 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                 context: context);
                           },
                           child: Text(
-                            'REGISTER',
+                            'REGISTRAR',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 20.0),
                           ),

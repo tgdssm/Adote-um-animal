@@ -8,6 +8,7 @@ import 'package:pet_adoption_flutter_app/data/providers/animal_provider.dart';
 class RegisterAnimalController {
   File _image;
   String _urlImage;
+  String _loading;
   final _nameController = TextEditingController();
   final _breedController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -15,7 +16,7 @@ class RegisterAnimalController {
   String _sex;
   final _formKey = GlobalKey<FormState>();
   final _animalProvider = AnimalProvider();
-  List<String> _species = ['CAT', 'DOG', 'BIRD'];
+  List<String> _species = ['GATO', 'CACHORRO'];
   String _dropdownValue;
 
   // final _picker = ImagePicker();
@@ -28,6 +29,7 @@ class RegisterAnimalController {
 
   Future<File> getImage() async {
     FilePickerResult result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
     );
 
     if(result != null){
@@ -57,7 +59,7 @@ class RegisterAnimalController {
     return sex;
   }
 
-  dynamic onPressingRegisterButton({BuildContext context}) {
+  dynamic onPressingRegisterButton({BuildContext context}) async{
 
     if (this._formKey.currentState
         .validate()) {
