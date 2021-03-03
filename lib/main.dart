@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,6 +11,6 @@ void main() async{
       primaryColor: Colors.grey[300],
     ),
     title: 'Pet Adoption',
-    home: HomeScreen(),
+    home: LoginScreen(),
   ));
 }

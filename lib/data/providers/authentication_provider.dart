@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthentificationPrivider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  Future<User> signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount signInAccount = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication signInAuthentication =
         await signInAccount.authentication;
@@ -13,10 +13,14 @@ class AuthentificationPrivider {
         accessToken: signInAuthentication.accessToken);
     final UserCredential userCredential =
         await _firebaseAuth.signInWithCredential(authCredential);
-    return userCredential.user;
+    return userCredential;
   }
 
-  getCurrentUser() {
+  User getCurrentUser() {
     return _firebaseAuth.currentUser;
+  }
+
+  signOut() {
+    _firebaseAuth.signOut();
   }
 }

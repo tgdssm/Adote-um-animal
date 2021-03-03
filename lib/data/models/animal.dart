@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pet_adoption_flutter_app/data/models/user.dart';
+import 'package:pet_adoption_flutter_app/utils/globals.dart';
 
 class Animal {
   String photo;
@@ -9,6 +11,7 @@ class Animal {
   int age;
   String description;
   String idDoc;
+  String uid;
 
   Animal({this.photo, this.name, this.age, this.breed, this.sex, this.description, this.species});
 
@@ -21,6 +24,7 @@ class Animal {
     this.photo = snapshot.data()['photo'];
     this.species = snapshot.data()['species'];
     this.idDoc = snapshot.id;
+    this.uid = snapshot.data()['uid'];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,7 +35,8 @@ class Animal {
       'description': this.description.toUpperCase(),
       'age': this.age,
       'photo': this.photo,
-      'species': this.species.toUpperCase()
+      'species': this.species.toUpperCase(),
+      'uid': authProvider.uid,
     };
   }
 }

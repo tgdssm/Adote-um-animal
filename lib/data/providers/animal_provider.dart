@@ -31,7 +31,7 @@ class AnimalProvider {
       snapshot = await _collectionReference.get();
     else
       snapshot = await _collectionReference.where('species', isEqualTo: filter).get();
-    snapshot.docs.forEach((element) {
+    snapshot.docs.forEach((element  ) {
       animals.add(Animal.fromJson(element));
     });
     return animals;

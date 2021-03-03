@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pet_adoption_flutter_app/data/models/user.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_screen.dart';
 
 class AppBarCustom extends StatelessWidget {
-  const AppBarCustom({
+  final User user;
+  final VoidCallback voidCallback;
+  AppBarCustom({
     Key key,
+    this.user,
+    this.voidCallback,
   }) : super(key: key);
 
   @override
@@ -40,14 +46,20 @@ class AppBarCustom extends StatelessWidget {
                       ))),
             ),
           ),
-          Container(
-            height: 50,
-            width: 50,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(80.0),
-              child: Image.asset(
-                'assets/images/dog.jpg',
-                fit: BoxFit.cover,
+          GestureDetector(
+            onTap: (){
+              voidCallback();
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 50,
+              width: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(80.0),
+                child: Image.network(
+                  user.photoUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           )

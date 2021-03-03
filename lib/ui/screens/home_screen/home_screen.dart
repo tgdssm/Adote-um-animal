@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
+import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_container.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/app_bar_custom.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  final User user;
+  HomeScreen({this.user});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -23,6 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
     print('filter function ${this.animalFilter}');
   }
 
+  void signOut() {
+    _homeController.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              AppBarCustom(),
+              AppBarCustom(user: widget.user, voidCallback: signOut),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -72,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               AnimalCharacteristics(
-                                                animal: snapshot.data[index],
-                                              ),
+                                            animal: snapshot.data[index],
+                                          ),
                                         )),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -169,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Future<void> _onRefresh() {
     Navigator.pushReplacement(
         context,
