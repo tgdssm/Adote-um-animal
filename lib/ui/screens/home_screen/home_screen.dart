@@ -8,6 +8,7 @@ import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_c
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/app_bar_custom.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/user_screen/user_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final User user;
@@ -170,7 +171,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 AssetImage('assets/icons/person.png'),
                 size: 45,
               ),
-              onTap: () => print('tocando'),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserScreen(),
+                  )),
             )
           ],
         ),

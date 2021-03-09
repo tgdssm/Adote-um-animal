@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
+import 'package:pet_adoption_flutter_app/data/models/user.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/alert_dialog_image.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/characteristics_container.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/user_advertisement/user_advertisement_screen.dart';
 
 class AnimalCharacteristics extends StatelessWidget {
   final Animal animal;
-  AnimalCharacteristics({this.animal});
+  final User user;
+  final _animalCharacteristicsController = AnimalCharacteristicsController();
+
+  AnimalCharacteristics({this.animal, this.user});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +43,89 @@ class AnimalCharacteristics extends StatelessWidget {
               Positioned(
                 top: 5.0,
                 left: 5.0,
-                child: IconButton(
-                  icon: Icon(Icons.undo),
-                  color: Colors.white,
-                  iconSize: 30.0,
-                  onPressed: () => Navigator.pop(context),
+                right: 5.0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.undo),
+                        color: Colors.white,
+                        iconSize: 30.0,
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      user == null
+                          ? IconButton(
+                              icon: Icon(
+                                Icons.favorite_border,
+                                color: Colors.white,
+                                size: 35.0,
+                              ),
+                              onPressed: () {},
+                            )
+                          : Container(
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 35.0,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RegisterAnimalScreen(
+                                                    animal: animal,
+                                                  ),
+                                            ));
+                                      }),
+                                  IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 35.0,
+                                      ),
+                                      onPressed: () async {
+                                        return showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text(
+                                                'DESEJA EXCLUIR ESSE ANÚNCIO?'),
+                                            content: Container(
+                                              child: Row(
+                                                children: [
+                                                  FlatButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text('NÃO')),
+                                                  FlatButton(
+                                                      onPressed: () async {
+                                                        await _animalCharacteristicsController
+                                                            .delete(animal);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  UserAdvertisementScreen(),
+                                                            ));
+                                                      },
+                                                      child: Text('SIM'))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ],
+                              ),
+                            )
+                    ],
+                  ),
                 ),
               ),
               Positioned(
@@ -97,7 +182,7 @@ class AnimalCharacteristics extends StatelessWidget {
                               vertical: 20.0, horizontal: 40.0),
                           width: MediaQuery.of(context).size.width,
                           height: 95,
-                          child: RaisedButton(
+                          child: MaterialButton(
                             onPressed: () {},
                             child: Text(
                               'ADOTAR',
@@ -121,7 +206,3 @@ class AnimalCharacteristics extends StatelessWidget {
     );
   }
 }
-
-
-
-

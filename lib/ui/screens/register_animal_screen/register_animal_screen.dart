@@ -8,6 +8,9 @@ import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widge
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/get_image_button.dart';
 
 class RegisterAnimalScreen extends StatefulWidget {
+  final animal;
+  RegisterAnimalScreen({this.animal});
+
   @override
   _RegisterAnimalScreenState createState() => _RegisterAnimalScreenState();
 }
@@ -17,6 +20,13 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
 
   Future<File> getImage() async {
     return await _registerAnimalController.getImage();
+  }
+
+  @override
+  initState() {
+    super.initState();
+    if (widget.animal != null)
+      _registerAnimalController.setValues(widget.animal);
   }
 
   DropdownButton<String> _dropdownButton() {
@@ -78,14 +88,13 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                   padding: EdgeInsets.only(bottom: 3.0, left: 40.0),
                   child: Text(
                     'ESPÉCIE',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600),
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 40.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 40.0),
                     child: _dropdownButton()),
                 Form(
                   key: _registerAnimalController.formKey,
@@ -103,15 +112,13 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                       AnimalFormField(
                         fieldName: 'IDADE',
                         validator: (value) {
-                          if(value.isEmpty || value == '0')
+                          if (value.isEmpty || value == '0')
                             return 'THE FIELD NO AGE CAN BE EMPTY';
                           return null;
                         },
                         maxLength: 2,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp('[0-9]')
-                          ),
+                          FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                         ],
                         textInputType: TextInputType.number,
                         controller: _registerAnimalController.ageController,
@@ -161,10 +168,10 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                             vertical: 20.0, horizontal: 40.0),
                         width: MediaQuery.of(context).size.width,
                         height: 95,
-                        child: RaisedButton(
+                        child: MaterialButton(
                           onPressed: () {
                             _registerAnimalController.onPressingRegisterButton(
-                                context: context);
+                                context: context, animal: widget.animal);
                           },
                           child: Text(
                             'REGISTRAR',

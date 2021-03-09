@@ -12,6 +12,7 @@ class Animal {
   String description;
   String idDoc;
   String uid;
+  DateTime date;
 
   Animal({this.photo, this.name, this.age, this.breed, this.sex, this.description, this.species});
 
@@ -25,6 +26,7 @@ class Animal {
     this.species = snapshot.data()['species'];
     this.idDoc = snapshot.id;
     this.uid = snapshot.data()['uid'];
+    // this.date = snapshot.data()['date'].toDate() ?? null;
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +39,7 @@ class Animal {
       'photo': this.photo,
       'species': this.species.toUpperCase(),
       'uid': authProvider.uid,
+      'date': DateTime.now(),
     };
   }
 }
