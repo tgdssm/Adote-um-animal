@@ -40,16 +40,9 @@ class RegisterAnimalController {
     return this._image;
   }
 
-  Future<void> deleteImage(Animal animal) async {
-    await _animalProvider.deleteImage(animal.photo.substring(77, 80));
-  }
-
   Future<void> createUpdateAnimal({Animal animalId}) async {
-    if (this._image != null) {
-      this._urlImage = await _animalProvider.uploadImage(_image);
-      await deleteImage(animalId);
-    }
-
+    this._urlImage =
+        this._image != null ? await _animalProvider.uploadImage(_image) : null;
     Animal animal = Animal(
       name: this._nameController.text,
       breed: this._breedController.text,
@@ -57,12 +50,16 @@ class RegisterAnimalController {
       sex: this._sex,
       age: int.tryParse(this._ageController.text),
       species: this._dropdownValue,
-      photo: this._urlImage != null ? this._urlImage : animalId.photo,
+      photo: this._urlImage != null ? this.urlImage : animalId.photo,
     );
-    if (animalId == null)
+    if (animalId == null) {
       await _animalProvider.create(animal);
-    else
+    } else {
+      if (this._urlImage != null)
+        await _animalProvider.deleteImage(animalId.photo.substring(77, 80));
       await _animalProvider.update(animal, animalId.idDoc);
+    }
+
     clearController();
   }
 
