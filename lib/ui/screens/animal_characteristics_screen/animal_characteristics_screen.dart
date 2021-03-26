@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_controller.dart';
@@ -74,14 +75,10 @@ class AnimalCharacteristics extends StatelessWidget {
                                         size: 35.0,
                                       ),
                                       onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  RegisterAnimalScreen(
-                                                    animal: animal,
-                                                  ),
-                                            ));
+                                        Get.to(RegisterAnimalScreen(
+                                          animal: animal,
+                                          
+                                        ));
                                       }),
                                   IconButton(
                                       icon: Icon(

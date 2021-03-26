@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/animal_form_field.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widgets/animal_sex_button.dart';
@@ -16,7 +17,7 @@ class RegisterAnimalScreen extends StatefulWidget {
 }
 
 class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
-  final _registerAnimalController = RegisterAnimalController();
+  final _registerAnimalController = Get.put(RegisterAnimalController());
 
   Future<File> getImage() async {
     return await _registerAnimalController.getImage();

@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/providers/animal_provider.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 
-class RegisterAnimalController {
+class RegisterAnimalController extends GetxController {
   File _image;
   String _urlImage;
-  String _loading;
   final _nameController = TextEditingController();
   final _breedController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -86,7 +86,12 @@ class RegisterAnimalController {
             content: Text('YOU NEED TO CHOOSE THE SEX OF THE ANIMAL.')));
       }
       createUpdateAnimal(animalId: animal);
-      Navigator.pop(context);
+      if (animal == null)
+        await Get.to(HomeScreen());
+      else
+        await Get.to(AnimalCharacteristics(
+          animal: animal,
+        ));
       print('tudo certo');
     }
   }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_controller.dart';
 
@@ -40,15 +41,12 @@ class LoginScreen extends StatelessWidget {
                         left: Radius.circular(30.0),
                         right: Radius.circular(30.0))),
                 child: GestureDetector(
-                  onTap: () async{
-                    final user = await _loginController.login();
-
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(user: user,),
-                          ));
+                  onTap: () async {
+                    await Get.to(
+                      HomeScreen(
+                        user: await _loginController.login(),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),

@@ -36,6 +36,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   image_picker: ^0.6.7+22
   file_picker: ^2.1.6
+  get: ^3.26.0
 
 dev_dependencies:
   flutter_test:
