@@ -38,7 +38,7 @@ class AnimalList extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(60.0),
                             child: Image.network(
-                              animal.photo,
+                              animal.urlPhoto,
                               fit: BoxFit.cover,
                             ),
                           ),

@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/providers/animal_provider.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_screen.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 
 class RegisterAnimalController extends GetxController {
   File _image;
@@ -19,6 +17,7 @@ class RegisterAnimalController extends GetxController {
   final _animalProvider = AnimalProvider();
   List<String> _species = ['GATO', 'CACHORRO'];
   String _dropdownValue;
+  RxBool loading = false.obs;
 
   void setValues(Animal animal) {
     this._nameController.text = animal.name;
@@ -43,6 +42,7 @@ class RegisterAnimalController extends GetxController {
   Future<void> createUpdateAnimal({Animal animalId}) async {
     this._urlImage =
         this._image != null ? await _animalProvider.uploadImage(_image) : null;
+    print(this._urlImage);
     Animal animal = Animal(
       name: this._nameController.text,
       breed: this._breedController.text,
@@ -50,16 +50,20 @@ class RegisterAnimalController extends GetxController {
       sex: this._sex,
       age: int.tryParse(this._ageController.text),
       species: this._dropdownValue,
-      photo: this._urlImage != null ? this.urlImage : animalId.photo,
+      urlPhoto: this._urlImage != null ? this.urlImage : animalId.urlPhoto,
+      imageFileName:
+          _image != null ? _image.path.split('/').last : animalId.imageFileName,
     );
     if (animalId == null) {
       await _animalProvider.create(animal);
     } else {
-      if (this._urlImage != null)
-        await _animalProvider.deleteImage(animalId.photo.substring(77, 80));
-      await _animalProvider.update(animal, animalId.idDoc);
+      if (this._urlImage != null) {
+        await _animalProvider.deleteImage(animalId.imageFileName);
+        await _animalProvider.update(animal, animalId.idDoc);
+      } else {
+        await _animalProvider.update(animal, animalId.idDoc);
+      }
     }
-
     clearController();
   }
 
@@ -85,13 +89,13 @@ class RegisterAnimalController extends GetxController {
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('YOU NEED TO CHOOSE THE SEX OF THE ANIMAL.')));
       }
-      createUpdateAnimal(animalId: animal);
+      loading.value = true;
+      await createUpdateAnimal(animalId: animal);
+      loading.value = false;
       if (animal == null)
-        await Get.to(HomeScreen());
+        Get.back();
       else
-        await Get.to(AnimalCharacteristics(
-          animal: animal,
-        ));
+        Get.back();
       print('tudo certo');
     }
   }

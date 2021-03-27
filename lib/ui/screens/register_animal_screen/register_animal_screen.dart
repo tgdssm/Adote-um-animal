@@ -164,26 +164,34 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 40.0),
-                        width: MediaQuery.of(context).size.width,
-                        height: 95,
-                        child: MaterialButton(
-                          onPressed: () {
-                            _registerAnimalController.onPressingRegisterButton(
-                                context: context, animal: widget.animal);
-                          },
-                          child: Text(
-                            'REGISTRAR',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 20.0),
-                          ),
-                          color: Colors.black,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)),
-                        ),
-                      ),
+                      Obx(() => _registerAnimalController.loading.value
+                          ? Container(
+                              width: 50,
+                              height: 50,
+                              child: CircularProgressIndicator(),
+                            )
+                          : Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 40.0),
+                              width: MediaQuery.of(context).size.width,
+                              height: 95,
+                              child: MaterialButton(
+                                onPressed: () {
+                                  _registerAnimalController
+                                      .onPressingRegisterButton(
+                                          context: context,
+                                          animal: widget.animal);
+                                },
+                                child: Text(
+                                  'REGISTRAR',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20.0),
+                                ),
+                                color: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0)),
+                              ),
+                            )),
                     ],
                   ),
                 )

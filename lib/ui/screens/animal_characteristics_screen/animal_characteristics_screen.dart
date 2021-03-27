@@ -5,8 +5,8 @@ import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/alert_dialog_image.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/characteristics_container.dart';
+import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/user_advertisement/user_advertisement_screen.dart';
 
 class AnimalCharacteristics extends StatelessWidget {
   final Animal animal;
@@ -36,7 +36,7 @@ class AnimalCharacteristics extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.5 * 1.02,
                   width: MediaQuery.of(context).size.width,
                   child: Image.network(
-                    animal.photo,
+                    animal.urlPhoto,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -97,19 +97,13 @@ class AnimalCharacteristics extends StatelessWidget {
                                                 children: [
                                                   FlatButton(
                                                       onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
+                                                         Get.back(),
                                                       child: Text('NÃO')),
                                                   FlatButton(
                                                       onPressed: () async {
                                                         await _animalCharacteristicsController
                                                             .delete(animal);
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  UserAdvertisementScreen(),
-                                                            ));
+                                                        Get.offAll(HomeScreen());
                                                       },
                                                       child: Text('SIM'))
                                                 ],

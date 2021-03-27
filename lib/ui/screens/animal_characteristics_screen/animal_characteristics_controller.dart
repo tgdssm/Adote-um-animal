@@ -5,7 +5,7 @@ class AnimalCharacteristicsController {
   final _animalProvider = AnimalProvider();
 
   Future<void> delete(Animal animal) async {
-    await _animalProvider.deleteImage(animal.photo.substring(77, 80));
+    await _animalProvider.deleteImage(animal.imageFileName);
     await _animalProvider.delete(animal.idDoc);
   }
 }

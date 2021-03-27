@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +5,7 @@ import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart
 import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  final _loginController = LoginController();
+  final _loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,33 +39,38 @@ class LoginScreen extends StatelessWidget {
                     borderRadius: BorderRadius.horizontal(
                         left: Radius.circular(30.0),
                         right: Radius.circular(30.0))),
-                child: GestureDetector(
-                  onTap: () async {
-                    await Get.to(
-                      HomeScreen(
-                        user: await _loginController.login(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Center(
-                            child: ImageIcon(
-                          AssetImage('assets/icons/google.png'),
-                          size: 35.0,
-                        )),
-                        Padding(padding: EdgeInsets.only(left: 5.0)),
-                        Text(
-                          'Sign In With Google',
-                          style: TextStyle(fontSize: 25.0, color: Colors.black),
+                child: Obx(() => _loginController.load.value
+                    ? CircularProgressIndicator()
+                    : GestureDetector(
+                        onTap: () async {
+                          _loginController.load.value = true;
+                          await Get.to(
+                            HomeScreen(
+                              user: await _loginController.login(),
+                            ),
+                          );
+                          _loginController.load.value = false;
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Center(
+                                  child: ImageIcon(
+                                AssetImage('assets/icons/google.png'),
+                                size: 35.0,
+                              )),
+                              Padding(padding: EdgeInsets.only(left: 5.0)),
+                              Text(
+                                'Sign In With Google',
+                                style: TextStyle(
+                                    fontSize: 25.0, color: Colors.black),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )),
               ),
             )
           ],

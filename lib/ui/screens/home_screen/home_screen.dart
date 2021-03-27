@@ -6,7 +6,6 @@ import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_scree
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_container.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/app_bar_custom.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/user_screen/user_screen.dart';
 
@@ -68,71 +67,75 @@ class _HomeScreenState extends State<HomeScreen> {
                           future: _homeController.read(filter: animalFilter),
                           builder:
                               (context, AsyncSnapshot<List<Animal>> snapshot) {
-                            if (snapshot.hasData)
-                              return Swiper(
-                                itemCount: snapshot.data.length,
-                                layout: SwiperLayout.STACK,
-                                itemWidth: MediaQuery.of(context).size.width,
-                                itemHeight: MediaQuery.of(context).size.height,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              AnimalCharacteristics(
-                                            animal: snapshot.data[index],
-                                          ),
-                                        )),
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.9,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.5,
-                                                child: Image.network(
-                                                  snapshot.data[index].photo,
-                                                  fit: BoxFit.cover,
-                                                )),
-                                            Positioned(
-                                              bottom: 15,
-                                              left: 25,
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    snapshot.data[index].name,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 26),
-                                                  ),
-                                                  Text(
-                                                    snapshot.data[index].breed,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 20),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          ],
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting)
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            if (snapshot.data.length <= 0)
+                              return Center(
+                                child: Text('NENHUM ANIMAL CADASTRADO'),
+                              );
+                            return Swiper(
+                              itemCount: snapshot.data.length,
+                              layout: SwiperLayout.STACK,
+                              itemWidth: MediaQuery.of(context).size.width,
+                              itemHeight: MediaQuery.of(context).size.height,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AnimalCharacteristics(
+                                          animal: snapshot.data[index],
                                         ),
+                                      )),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.9,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.5,
+                                              child: Image.network(
+                                                snapshot.data[index].urlPhoto,
+                                                fit: BoxFit.cover,
+                                              )),
+                                          Positioned(
+                                            bottom: 15,
+                                            left: 25,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  snapshot.data[index].name,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 26),
+                                                ),
+                                                Text(
+                                                  snapshot.data[index].breed,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  );
-                                },
-                              );
-                            return Center(
-                              child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              },
                             );
                           }),
                     ),
