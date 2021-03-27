@@ -78,7 +78,9 @@ class AnimalProvider {
   }
 
   Future<void> delete(String id) async {
-    await _collectionReference.doc(id).delete();
+    await _collectionReference
+        .doc(authProvider.email + ' ' + authProvider.displayName)
+        .collection('Posts').doc(id).delete();
   }
 
   Future<String> uploadImage(File image) async {

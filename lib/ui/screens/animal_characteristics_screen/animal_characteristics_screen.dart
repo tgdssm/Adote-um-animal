@@ -5,7 +5,6 @@ import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/alert_dialog_image.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/characteristics_container.dart';
-import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/register_animal_screen.dart';
 
 class AnimalCharacteristics extends StatelessWidget {
@@ -77,7 +76,6 @@ class AnimalCharacteristics extends StatelessWidget {
                                       onPressed: () {
                                         Get.to(RegisterAnimalScreen(
                                           animal: animal,
-                                          
                                         ));
                                       }),
                                   IconButton(
@@ -103,7 +101,9 @@ class AnimalCharacteristics extends StatelessWidget {
                                                       onPressed: () async {
                                                         await _animalCharacteristicsController
                                                             .delete(animal);
-                                                        Get.offAll(HomeScreen());
+                                                        Get.back();
+                                                        Get.back();
+                                                        Get.back();
                                                       },
                                                       child: Text('SIM'))
                                                 ],
