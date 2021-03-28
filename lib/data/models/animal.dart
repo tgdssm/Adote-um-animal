@@ -11,6 +11,8 @@ class Animal {
   String description;
   String idDoc;
   String uid;
+  String ownerName;
+  String ownerEmail;
   DateTime date;
   String imageFileName;
   Animal(
@@ -33,6 +35,8 @@ class Animal {
     this.species = snapshot.data()['species'];
     this.idDoc = snapshot.id;
     this.uid = snapshot.data()['uid'];
+    this.ownerName = snapshot.data()['ownerName'];
+    this.ownerEmail = snapshot.data()['ownerEmail'];
     this.imageFileName = snapshot.data()['imageFileName'];
     // this.date = snapshot.data()['date'].toDate() ?? null;
   }
@@ -47,6 +51,8 @@ class Animal {
       'photo': this.urlPhoto,
       'species': this.species.toUpperCase(),
       'uid': authProvider.uid,
+      'ownerName': authProvider.displayName,
+      'ownerEmail': authProvider.email,
       'date': DateTime.now(),
       'imageFileName': this.imageFileName
     };

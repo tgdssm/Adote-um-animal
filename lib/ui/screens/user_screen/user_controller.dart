@@ -1,6 +1,5 @@
 import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/utils/globals.dart';
-import 'package:firebase_auth/firebase_auth.dart' as AuthUser;
 
 class UserController {
 

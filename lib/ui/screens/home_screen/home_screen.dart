@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/models/user.dart';
+import 'package:pet_adoption_flutter_app/ui/commons/bottom_navigation_bar.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/widgets/animal_container.dart';
@@ -146,52 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GestureDetector(
-              child: Icon(
-                Icons.home_filled,
-                size: 35,
-              ),
-              onTap: () => print('tocando'),
-            ),
-            GestureDetector(
-              child: ImageIcon(
-                AssetImage('assets/icons/add.png'),
-                size: 45,
-              ),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => RegisterAnimalScreen())),
-            ),
-            GestureDetector(
-              child: ImageIcon(
-                AssetImage('assets/icons/person.png'),
-                size: 45,
-              ),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserScreen(),
-                  )),
-            )
-          ],
-        ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        screen2: RegisterAnimalScreen(),
+        screen3: UserScreen(),
       ),
     );
-  }
-
-  Future<void> _onRefresh() {
-    Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
-          transitionDuration: Duration(seconds: 0),
-        ));
   }
 }

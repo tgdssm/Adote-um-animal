@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/models/user.dart';
+import 'package:pet_adoption_flutter_app/data/providers/url_launcher.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/animal_characteristics_controller.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/alert_dialog_image.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/animal_characteristics_screen/widgets/characteristics_container.dart';
@@ -174,7 +175,13 @@ class AnimalCharacteristics extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           height: 95,
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              UrlLauncher.openEmail(
+                                toEmail: animal.ownerEmail,
+                                subject: 'Olá, ${animal.ownerName}. Gostaria de adotar o/a ${animal.name}',
+                                body: 'TESTANNDO'
+                              );
+                            },
                             child: Text(
                               'ADOTAR',
                               style: TextStyle(
