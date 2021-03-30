@@ -96,7 +96,7 @@ class AnimalCharacteristics extends StatelessWidget {
                                                 children: [
                                                   FlatButton(
                                                       onPressed: () =>
-                                                         Get.back(),
+                                                          Get.back(),
                                                       child: Text('NÃO')),
                                                   FlatButton(
                                                       onPressed: () async {
@@ -177,10 +177,10 @@ class AnimalCharacteristics extends StatelessWidget {
                           child: MaterialButton(
                             onPressed: () {
                               UrlLauncher.openEmail(
-                                toEmail: animal.ownerEmail,
-                                subject: 'Olá, ${animal.ownerName}. Gostaria de adotar o/a ${animal.name}',
-                                body: 'TESTANNDO'
-                              );
+                                  toEmail: animal.ownerEmail,
+                                  subject:
+                                      'Olá, ${animal.ownerName}. Gostaria de adotar o/a ${animal.name}',
+                                  body: 'TESTANNDO');
                             },
                             child: Text(
                               'ADOTAR',

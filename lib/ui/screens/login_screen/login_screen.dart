@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pet_adoption_flutter_app/data/providers/google_geocoding.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/home_screen/home_screen.dart';
 import 'package:pet_adoption_flutter_app/ui/screens/login_screen/login_controller.dart';
+import 'package:pet_adoption_flutter_app/utils/globals.dart';
 
 class LoginScreen extends StatelessWidget {
   final _loginController = Get.put(LoginController());
@@ -47,6 +49,7 @@ class LoginScreen extends StatelessWidget {
                           await Get.to(
                             HomeScreen(
                               user: await _loginController.login(),
+                              userCurrentLocation: await GoogleGeocoding.reverseGeocoding(await userCurrentLocation),
                             ),
                           );
                           _loginController.load.value = false;

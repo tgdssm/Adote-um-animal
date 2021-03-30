@@ -8,7 +8,8 @@ import 'package:pet_adoption_flutter_app/ui/screens/user_screen/widgets/icons_ro
 class UserScreen extends StatelessWidget {
   final User _user = UserController().getCurrentUser();
   final _userController = UserController();
-
+  final String position;
+  UserScreen({this.position});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +128,7 @@ class UserScreen extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    'Pirapora, MG',
+                                    '$position',
                                     style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,

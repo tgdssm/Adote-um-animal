@@ -5,7 +5,6 @@ class User {
   String displayName;
   String uid;
   String photoUrl;
-
   // User({this.displayName, this.email, this.photoUrl, this.uid});
 
   User.fromJson(AuthUser.User user) {

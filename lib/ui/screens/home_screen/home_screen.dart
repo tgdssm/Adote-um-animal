@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pet_adoption_flutter_app/data/models/animal.dart';
 import 'package:pet_adoption_flutter_app/data/models/user.dart';
 import 'package:pet_adoption_flutter_app/ui/commons/bottom_navigation_bar.dart';
@@ -12,7 +13,8 @@ import 'package:pet_adoption_flutter_app/ui/screens/user_screen/user_screen.dart
 
 class HomeScreen extends StatefulWidget {
   final User user;
-  HomeScreen({this.user});
+  final String userCurrentLocation;
+  HomeScreen({this.user, this.userCurrentLocation});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -149,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         screen2: RegisterAnimalScreen(),
-        screen3: UserScreen(),
+        screen3: UserScreen(position: widget.userCurrentLocation),
       ),
     );
   }
