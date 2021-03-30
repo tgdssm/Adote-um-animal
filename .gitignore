@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+key_store_path.jks
 
 # Web related
 lib/generated_plugin_registrant.dart
