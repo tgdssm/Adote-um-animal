@@ -12,6 +12,7 @@ class RegisterAnimalController extends GetxController {
   final _breedController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _ageController = TextEditingController();
+  String _city;
   String _sex;
   final _formKey = GlobalKey<FormState>();
   final _animalProvider = AnimalProvider();
@@ -26,6 +27,7 @@ class RegisterAnimalController extends GetxController {
     this._breedController.text = animal.breed;
     this._descriptionController.text = animal.description;
     this._sex = animal.sex;
+    this._city = animal.city;
   }
 
   Future<File> getImage() async {
@@ -39,7 +41,7 @@ class RegisterAnimalController extends GetxController {
     return this._image;
   }
 
-  Future<void> createUpdateAnimal({Animal animalId}) async {
+  Future<void> createUpdateAnimal({Animal animalId, String city}) async {
     this._urlImage =
         this._image != null ? await _animalProvider.uploadImage(_image) : null;
     print(this._urlImage);
@@ -53,6 +55,7 @@ class RegisterAnimalController extends GetxController {
       urlPhoto: this._urlImage != null ? this.urlImage : animalId.urlPhoto,
       imageFileName:
           _image != null ? _image.path.split('/').last : animalId.imageFileName,
+      city: this._city == null ? city : this._city,
     );
     if (animalId == null) {
       await _animalProvider.create(animal);
@@ -73,7 +76,7 @@ class RegisterAnimalController extends GetxController {
   }
 
   dynamic onPressingRegisterButton(
-      {BuildContext context, Animal animal}) async {
+      {BuildContext context, Animal animal, String city}) async {
     if (this._formKey.currentState.validate()) {
       if (this._image == null && animal == null) {
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -90,7 +93,7 @@ class RegisterAnimalController extends GetxController {
             content: Text('YOU NEED TO CHOOSE THE SEX OF THE ANIMAL.')));
       }
       loading.value = true;
-      await createUpdateAnimal(animalId: animal);
+      await createUpdateAnimal(animalId: animal, city: city);
       loading.value = false;
       if (animal == null)
         Get.back();

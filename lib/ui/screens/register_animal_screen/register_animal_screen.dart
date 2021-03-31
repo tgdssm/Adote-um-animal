@@ -10,7 +10,8 @@ import 'package:pet_adoption_flutter_app/ui/screens/register_animal_screen/widge
 
 class RegisterAnimalScreen extends StatefulWidget {
   final animal;
-  RegisterAnimalScreen({this.animal});
+  final String city;
+  RegisterAnimalScreen({this.animal, this.city});
 
   @override
   _RegisterAnimalScreenState createState() => _RegisterAnimalScreenState();
@@ -180,7 +181,8 @@ class _RegisterAnimalScreenState extends State<RegisterAnimalScreen> {
                                   _registerAnimalController
                                       .onPressingRegisterButton(
                                           context: context,
-                                          animal: widget.animal);
+                                          animal: widget.animal,
+                                          city: widget.city);
                                 },
                                 child: Text(
                                   'REGISTRAR',

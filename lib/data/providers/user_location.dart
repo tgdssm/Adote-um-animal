@@ -28,7 +28,7 @@ class UserLocation {
         desiredAccuracy: LocationAccuracy.high);
   }
 
-  static Future<Position> getUserCurrentLocation() async{
+  static Future<Position> getUserCurrentLocation() async {
     return await _determinePosition();
   }
 }

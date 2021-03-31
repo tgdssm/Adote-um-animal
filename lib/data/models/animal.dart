@@ -15,6 +15,7 @@ class Animal {
   String ownerEmail;
   DateTime date;
   String imageFileName;
+  String city;
   Animal(
       {this.urlPhoto,
       this.name,
@@ -23,7 +24,8 @@ class Animal {
       this.sex,
       this.description,
       this.species,
-      this.imageFileName});
+      this.imageFileName,
+      this.city});
 
   Animal.fromJson(QueryDocumentSnapshot snapshot) {
     this.name = snapshot.data()['name'];
@@ -38,6 +40,7 @@ class Animal {
     this.ownerName = snapshot.data()['ownerName'];
     this.ownerEmail = snapshot.data()['ownerEmail'];
     this.imageFileName = snapshot.data()['imageFileName'];
+    this.city = snapshot.data()['city'];
     // this.date = snapshot.data()['date'].toDate() ?? null;
   }
 
@@ -54,7 +57,8 @@ class Animal {
       'ownerName': authProvider.displayName,
       'ownerEmail': authProvider.email,
       'date': DateTime.now(),
-      'imageFileName': this.imageFileName
+      'imageFileName': this.imageFileName,
+      'city': this.city,
     };
   }
 }

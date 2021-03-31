@@ -7,8 +7,8 @@ class HomeController {
   final _animalProvider = AnimalProvider();
   final _authProvider = AuthentificationPrivider();
 
-  Future<List<Animal>> read({String filter}) async{
-    return await this._animalProvider.read(filter: filter);
+  Future<List<Animal>> read({String filter, String city}) async{
+    return await this._animalProvider.read(filter: filter, city: city);
   }
 
   signOut() {

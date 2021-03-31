@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.height * 0.5,
                       child: FutureBuilder(
-                          future: _homeController.read(filter: animalFilter),
+                          future: _homeController.read(filter: animalFilter, city: widget.userCurrentLocation),
                           builder:
                               (context, AsyncSnapshot<List<Animal>> snapshot) {
                             if (snapshot.connectionState ==
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        screen2: RegisterAnimalScreen(),
+        screen2: RegisterAnimalScreen(city: widget.userCurrentLocation),
         screen3: UserScreen(position: widget.userCurrentLocation),
       ),
     );

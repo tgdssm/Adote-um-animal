@@ -29,7 +29,7 @@ class AnimalProvider {
         .update(animal.toJson());
   }
 
-  Future<List<Animal>> read({String filter, String userId}) async {
+  Future<List<Animal>> read({String filter, String userId, String city}) async {
     List<Animal> animals = [];
     QuerySnapshot snapshot;
     if (filter == null && userId == null) {
@@ -38,7 +38,7 @@ class AnimalProvider {
       //TODO concluido antes de ir para o proximo;
       await Future.forEach(snapshot.docs,
           (QueryDocumentSnapshot element) async {
-        await element.reference.collection('Posts').get().then((value) async {
+        await element.reference.collection('Posts').where('city', isEqualTo: city).get().then((value) async {
           await Future.forEach(value.docs, (element2) {
             animals.add(Animal.fromJson(element2));
           });
@@ -51,6 +51,7 @@ class AnimalProvider {
         await element.reference
             .collection('Posts')
             .where('species', isEqualTo: filter)
+            .where('city', isEqualTo: city)
             .get()
             .then((value) async {
           await Future.forEach(value.docs, (element2) {
